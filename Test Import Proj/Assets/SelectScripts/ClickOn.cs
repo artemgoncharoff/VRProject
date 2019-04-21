@@ -8,8 +8,12 @@ public class ClickOn : MonoBehaviour
     private Material red, green;
     // [SerializeField]
     private MeshRenderer myRend;
-    private bool flag = false;
-    private GameObject obj;
+    public bool flag = false;
+
+    [SerializeField]
+    private GameObject arrow;
+
+    private GameObject arrows;
 
     void Start()
     {
@@ -19,13 +23,31 @@ public class ClickOn : MonoBehaviour
 
     // Update is called once per frame
     public void ClickMe()
-    { 
+    {
 
         if (!flag)
+        {
             myRend.material = green;
+            //this.gameObject.
+            arrows = Instantiate(arrow);
+            arrows.transform.position = this.transform.position;
+        }
         else
+        {
             myRend.material = red;
+            Destroy(arrows);
+        }
+
 
         flag = !flag;
+    }
+
+    void Update()
+    {
+        if(flag)
+        if (!GetComponent<Pos_Script>().flag)
+            this.transform.position = arrows.transform.position;
+        else
+            arrows.transform.position = this.transform.position;
     }
 }
